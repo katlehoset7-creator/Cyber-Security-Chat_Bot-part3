@@ -563,15 +563,33 @@ namespace WinFormsApp1
         }
 
         // Display a message in the chat history.
+
         private void AddMessage(string sender, string message)
         {
             if (chatDisplay == null)
                 return;
 
+            // Display the sender's actual name instead of "You".
+            if (sender.Equals("You", StringComparison.OrdinalIgnoreCase))
+            {
+                if (memory.TryGetValue("name", out string? savedName)
+                    && !string.IsNullOrWhiteSpace(savedName))
+                {
+                    sender = savedName;
+                }
+                else
+                {
+                    sender = "You";
+                }
+            }
+
             chatDisplay.AppendText(
-                sender + ": " + message +
+                sender + Environment.NewLine +
+                message + Environment.NewLine +
+                "----------------------------------------" +
                 Environment.NewLine + Environment.NewLine);
         }
+
 
         // Play the existing WAV greeting, if the file exists.
         private void PlayGreeting()
@@ -636,6 +654,11 @@ namespace WinFormsApp1
             greetingPlayer?.Dispose();
 
             base.OnFormClosed(e);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
