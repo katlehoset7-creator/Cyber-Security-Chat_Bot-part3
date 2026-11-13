@@ -5,7 +5,8 @@ using System.Drawing;
 using System.IO;
 using System.Media;
 using System.Windows.Forms;
-
+using WinFormsApp1.Data;
+using WinFormsApp1.Models;
 namespace WinFormsApp1
 {
     public partial class Form1 : Form
@@ -40,12 +41,36 @@ namespace WinFormsApp1
             responseHandler = GetResponse;
         }
 
+
         private void Form1_Load_1(object sender, EventArgs e)
         {
             LoadResponses();
             BuildDashboard();
+
+            // Test the connection to the MySQL database.
+            try
+            {
+                using var connection = DbConfig.GetConnection();
+                connection.Open();
+
+                MessageBox.Show(
+                    "Black Vault successfully connected to MySQL!",
+                    "Database Connection",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Database connection failed:\n" + ex.Message,
+                    "Database Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+
             PlayGreeting();
         }
+
 
         // Add cybersecurity responses to the dictionary.
         private void LoadResponses()
@@ -213,6 +238,20 @@ namespace WinFormsApp1
             AddQuickButton("Scams", 480, 560, "scam");
             AddQuickButton("Privacy", 595, 560, "privacy");
 
+            Button taskAssistantButton = CreateStyledButton(
+                "My Tasks", 720, 560, 115, 38);
+
+            taskAssistantButton.Click += (s, e) =>
+            {
+                using (TaskAssistantForm taskForm = new TaskAssistantForm())
+                {
+                    taskForm.ShowDialog(this);
+                }
+            };
+
+            Controls.Add(taskAssistantButton);
+
+
             Label footer = new Label();
             footer.Text = "BLACK VAULT  |  THINK BEFORE YOU CLICK";
             footer.Location = new Point(250, 610);
@@ -342,7 +381,7 @@ namespace WinFormsApp1
                 "Chat cleared. Your saved session memory is still available.");
         }
 
-        private void sendButton_Click(object sender, EventArgs e)
+        private void sendButton_Click(object? sender, EventArgs e)
         {
             SendMessage();
         }
@@ -592,33 +631,13 @@ namespace WinFormsApp1
 
 
         // Play the existing WAV greeting, if the file exists.
-        private void PlayGreeting()
+
+        public void PlayGreeting()
         {
-            try
-            {
-                string audioPath = Path.Combine(
-                    Application.StartupPath, "greeting_1.wav");
-
-                if (!File.Exists(audioPath))
-                {
-                    AddMessage("Black Vault",
-                        "Greeting audio was not found. You can still use the chatbot.");
-                    return;
-                }
-
-                greetingPlayer?.Stop();
-                greetingPlayer?.Dispose();
-
-                greetingPlayer = new SoundPlayer(audioPath);
-                greetingPlayer.LoadAsync();
-                greetingPlayer.Play();
-            }
-            catch (Exception)
-            {
-                AddMessage("Black Vault",
-                    "The greeting audio could not be played.");
-            }
+            SoundPlayer player = new SoundPlayer("C:\\Users\\Student\\source\\repos\\WinFormsApp1\\WinFormsApp1\\Resources\\greeting_1.wav");
+            player.Play();
         }
+
 
         private void ExitApplication()
         {
@@ -633,17 +652,17 @@ namespace WinFormsApp1
         }
 
         // Keep these existing event methods for compatibility with the Designer.
-        private void button2_Click(object sender, EventArgs e)
+        public void button2_Click(object sender, EventArgs e)
         {
             StartChat();
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        public void pictureBox1_Click(object sender, EventArgs e)
         {
             // The existing logo is kept as part of the dashboard.
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        public void Form1_Load(object sender, EventArgs e)
         {
             // Kept in case the Designer or project still references this event.
         }
@@ -657,6 +676,26 @@ namespace WinFormsApp1
         }
 
         private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
         {
 
         }

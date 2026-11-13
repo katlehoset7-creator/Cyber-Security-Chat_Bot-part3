@@ -10,7 +10,12 @@
 
 	<ItemGroup>
 		<Folder Include="image=" />
+		<Folder Include="voice\" />
 
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="MySqlConnector" Version="3.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

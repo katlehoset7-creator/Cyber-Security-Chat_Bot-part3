@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37531.7
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsApp1", "WinFormsApp1\WinFormsApp1.csproj", "{6A8652D5-5436-4042-9346-7B99991CDA81}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		TaskItem.cs = TaskItem.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{37506524-E91C-4537-B284-59842D738141}"
+	ProjectSection(SolutionItems) = preProject
+		DbConfig.cs = DbConfig.cs
+		TaskRepository.cs = TaskRepository.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{C5279D9F-CC94-4A20-8BB0-D12080346C62}"
+	ProjectSection(SolutionItems) = preProject
+		ActivityLogger.cs = ActivityLogger.cs
+		ChatbotEngine.cs = ChatbotEngine.cs
+		FuzzyMatcher.cs = FuzzyMatcher.cs
+		NlpService.cs = NlpService.cs
+		QuizService.cs = QuizService.cs
+		ReminderParser.cs = ReminderParser.cs
+		TaskDescriptions.cs = TaskDescriptions.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{8BCC0A2B-BEC6-4566-A860-A5122E414168}"
+	ProjectSection(SolutionItems) = preProject
+		setup.sql = setup.sql
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6A8652D5-5436-4042-9346-7B99991CDA81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A8652D5-5436-4042-9346-7B99991CDA81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A8652D5-5436-4042-9346-7B99991CDA81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A8652D5-5436-4042-9346-7B99991CDA81}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4BA8AE84-B9D3-457D-BA72-136B75CD1955}
+	EndGlobalSection
+EndGlobal
