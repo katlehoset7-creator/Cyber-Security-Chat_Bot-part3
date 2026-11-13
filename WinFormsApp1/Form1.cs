@@ -489,17 +489,47 @@ namespace WinFormsApp1
                 return "Opening your Task Assistant so you can create a new task.";
             }
 
+
             if (nlpResult.Intent == NlpIntent.SetReminder)
             {
-                BeginInvoke(new Action(() =>
-                {
-                    using (TaskAssistantForm taskForm = new TaskAssistantForm())
-                    {
-                        taskForm.ShowDialog(this);
-                    }
-                }));
+                ReminderParser reminderParser = new ReminderParser();
+                ParsedReminder reminder = reminderParser.Parse(input);
 
-                return "Opening your Task Assistant. Enter your task and choose a reminder date and time.";
+                if (!reminder.IsValid)
+                {
+                    return "I couldn't understand the reminder date or time. " +
+                           "Try: Remind me to study cybersecurity tomorrow at 3 PM.";
+                }
+
+                try
+                {
+                    TaskRepository taskRepository = new TaskRepository();
+
+                    TaskItem newTask = new TaskItem
+                    {
+                        Title = reminder.TaskTitle,
+                        Description = "Created through Black Vault chatbot",
+                        ReminderDate = reminder.ReminderDate,
+                        IsCompleted = false
+                    };
+
+                    taskRepository.AddTask(newTask);
+
+                    activityLogger.Log(
+                        "Created reminder: " + reminder.TaskTitle);
+
+                    return "Reminder successfully saved to MySQL!"
+                        + Environment.NewLine
+                        + "Task: " + reminder.TaskTitle
+                        + Environment.NewLine
+                        + "Reminder: " +
+                          reminder.ReminderDate.Value.ToString("dd MMM yyyy HH:mm");
+                }
+                catch (Exception)
+                {
+                    return "I couldn't save the reminder to the database. " +
+                           "Please check your MySQL connection and try again.";
+                }
             }
 
 
