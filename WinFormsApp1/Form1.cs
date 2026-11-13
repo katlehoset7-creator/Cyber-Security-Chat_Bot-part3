@@ -7,10 +7,13 @@ using System.Media;
 using System.Windows.Forms;
 using WinFormsApp1.Data;
 using WinFormsApp1.Models;
+using WinFormsApp1.Services;
+
 namespace WinFormsApp1
 {
     public partial class Form1 : Form
     {
+        private readonly ActivityLogger activityLogger = new ActivityLogger();
         // These controls are created in this file, inside the existing Form1.
         private TextBox? chatDisplay;
         private TextBox? userInput;
@@ -441,6 +444,76 @@ namespace WinFormsApp1
         private string GetResponse(string input)
         {
             string message = input.ToLower();
+
+            // PART 3: NLP Simulation
+            NlpService nlpService = new NlpService();
+            NlpResult nlpResult = nlpService.Understand(input);
+
+            if (nlpResult.Intent == NlpIntent.StartQuiz)
+            {
+                activityLogger.Log("Started Cybersecurity Quiz");
+                BeginInvoke(new Action(() =>
+                {
+                    using (QuizForm quizForm = new QuizForm())
+                    {
+                        quizForm.ShowDialog(this);
+                    }
+                }));
+
+                return "Starting your Black Vault Cybersecurity Quiz! Good luck!";
+            }
+
+            if (nlpResult.Intent == NlpIntent.ViewTasks)
+            {
+                BeginInvoke(new Action(() =>
+                {
+                    using (TaskAssistantForm taskForm = new TaskAssistantForm())
+                    {
+                        taskForm.ShowDialog(this);
+                    }
+                }));
+
+                return "Opening your Task Assistant. Here you can view and manage your tasks.";
+            }
+
+            if (nlpResult.Intent == NlpIntent.AddTask)
+            {
+                BeginInvoke(new Action(() =>
+                {
+                    using (TaskAssistantForm taskForm = new TaskAssistantForm())
+                    {
+                        taskForm.ShowDialog(this);
+                    }
+                }));
+
+                return "Opening your Task Assistant so you can create a new task.";
+            }
+
+            if (nlpResult.Intent == NlpIntent.SetReminder)
+            {
+                BeginInvoke(new Action(() =>
+                {
+                    using (TaskAssistantForm taskForm = new TaskAssistantForm())
+                    {
+                        taskForm.ShowDialog(this);
+                    }
+                }));
+
+                return "Opening your Task Assistant. Enter your task and choose a reminder date and time.";
+            }
+
+
+            if (nlpResult.Intent == NlpIntent.ViewActivityLog)
+            {
+                string summary = activityLogger.GetActivitySummary(10);
+
+                return "BLACK VAULT - RECENT ACTIVITY"
+                    + Environment.NewLine
+                    + Environment.NewLine
+                    + summary;
+            }
+
+
 
             // Remember the user's name.
             if (message.Contains("my name is"))
