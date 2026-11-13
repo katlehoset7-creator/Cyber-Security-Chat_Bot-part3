@@ -251,6 +251,19 @@ namespace WinFormsApp1
 
             Controls.Add(taskAssistantButton);
 
+            Button quizButton = CreateStyledButton("Play Quiz", 845, 560, 115, 38);
+
+            quizButton.Click += (s, e) =>
+            {
+                using (QuizForm quizForm = new QuizForm())
+                {
+                    quizForm.ShowDialog(this);
+                }
+            };
+
+            Controls.Add(quizButton);
+
+
 
             Label footer = new Label();
             footer.Text = "BLACK VAULT  |  THINK BEFORE YOU CLICK";
